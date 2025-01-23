@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+  --color-light-content: #6b6b6b;
+  --color-white-smoke: #f9f9f9;
+}
