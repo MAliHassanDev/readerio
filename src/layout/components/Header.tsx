@@ -1,11 +1,15 @@
 import Pen from "@/assets/icons/pen.svg?react";
+import Avatar from "@/components/ui/Avatar";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <header>
-      <div className="flex items-center justify-between px-6 py-5">
+      <div className="border-b-base-300 flex items-center justify-between border-b-1 px-6 py-3">
         <div className="flex items-center gap-4">
-          <a className="text-3xl font-semibold">Readerio</a>
+          <Link to={"/"} className="text-3xl font-semibold">
+            Readerio
+          </Link>
           <div>
             <label className="input text-light-content rounded-full">
               <svg
@@ -34,15 +38,14 @@ const Header = () => {
           </div>
         </div>
         <div className="flex items-center gap-6">
-          <a className="text-light-content hover:text-base-content flex cursor-pointer">
+          <Link
+            to="write"
+            className="text-light-content hover:text-base-content flex cursor-pointer"
+          >
             <Pen />
             <p className="px-2">Write</p>
-          </a>
-          <div className="avatar">
-            <div className="w-8 rounded-full">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-            </div>
-          </div>
+          </Link>
+          <Avatar />
         </div>
       </div>
     </header>
