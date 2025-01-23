@@ -4,4 +4,16 @@
 @theme {
   --color-light-content: #6b6b6b;
   --color-white-smoke: #f9f9f9;
+
+  --font-secondary: "Poppins", "Arial"
+}
+
+
+
+@font-face {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 200 400 600 700;
+  font-display: swap;
+  src: url("/src/assets/fonts/poppins-regular-webfont.woff2") format("woff2");
 }
