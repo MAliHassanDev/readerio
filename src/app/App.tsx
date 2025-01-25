@@ -1,19 +1,28 @@
-import Layout from "@/layout/Layout";
-import Home from "@/pages/Home";
+import { RootLayout } from "@/ui/layout/RootLayout";
+import { Home } from "@/pages/Home";
 import Write from "@/pages/Write";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router";
+import { Toaster } from "react-hot-toast";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path={"/"} element={<RootLayout />}>
+      <Route index element={<Home />} />
+      <Route path="write" element={<Write />} />
+    </Route>,
+  ),
+);
 
 const App = () => {
   return (
     <div className="min-h-svh font-serif">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="write" element={<Write />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <Toaster />
+      <RouterProvider router={router} />
     </div>
   );
 };

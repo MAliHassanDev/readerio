@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import svgr from "vite-plugin-svgr";
 
 const viteConfig = defineViteConfig({
-  plugins: [react(),tailwindcss(),svgr()],
+  plugins: [react(), tailwindcss(), svgr()],
   resolve: {
     alias: {
       "@/app": "/src/app",
@@ -16,7 +16,8 @@ const viteConfig = defineViteConfig({
       "@/styles": "/src/styles",
       "@/pages": "/src/pages",
       "@/layout": "/src/layout",
-      "@/assets": "/src/assets"
+      "@/assets": "/src/assets",
+      "@/ui": "/src/ui",
     },
   },
 });
