@@ -1,4 +1,4 @@
-import { ArticleCard } from "@/ui/components/ArticleCard";
+import { ArticleCard } from "@/components/ui/ArticleCard";
 
 export const Home = () => {
   return (

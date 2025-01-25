@@ -1,4 +1,4 @@
-import { RootLayout } from "@/ui/layout/RootLayout";
+import { RootLayout } from "@/layout/RootLayout";
 import { Home } from "@/pages/Home";
 import Write from "@/pages/Write";
 import {

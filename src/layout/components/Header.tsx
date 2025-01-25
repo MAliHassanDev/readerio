@@ -1,5 +1,5 @@
 import Pen from "@/assets/icons/pen.svg?react";
-import Avatar from "@/ui/components/Avatar";
+import Avatar from "@/components/ui/Avatar";
 import { Link } from "react-router";
 const Header = () => {
   return (

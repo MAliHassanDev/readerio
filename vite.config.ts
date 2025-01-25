@@ -3,21 +3,13 @@ import { defineConfig as defineVitestConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import svgr from "vite-plugin-svgr";
+import path from "path";
 
 const viteConfig = defineViteConfig({
   plugins: [react(), tailwindcss(), svgr()],
   resolve: {
     alias: {
-      "@/app": "/src/app",
-      "@/components": "/src/components",
-      "@/hooks": "/src/hooks",
-      "@/global": "/src/global",
-      "@/config": "/src/config",
-      "@/styles": "/src/styles",
-      "@/pages": "/src/pages",
-      "@/layout": "/src/layout",
-      "@/assets": "/src/assets",
-      "@/ui": "/src/ui",
+      "@": path.join(import.meta.dirname, "src"),
     },
   },
 });
