@@ -5,10 +5,8 @@
   --color-light-content: #6b6b6b;
   --color-white-smoke: #f9f9f9;
 
-  --font-secondary: "Poppins", "Arial"
+  --font-secondary: "Arial", "Poppins";
 }
-
-
 
 @font-face {
   font-family: Poppins;
