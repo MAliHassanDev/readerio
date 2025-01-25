@@ -1,6 +1,6 @@
-import ArticleCard from "@/components/ui/ArticleCard";
+import { ArticleCard } from "@/ui/components/ArticleCard";
 
-const Home = () => {
+export const Home = () => {
   return (
     <main className="w-full">
       <div className="mx-auto w-full max-w-[800px] pt-6">
@@ -19,5 +19,3 @@ const Home = () => {
     </main>
   );
 };
-
-export default Home;
