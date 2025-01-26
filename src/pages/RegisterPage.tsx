@@ -1,5 +1,6 @@
 import { FormField } from "@/components/ui/form/FormField";
 import { useForm } from "@/hooks/useForm";
+import { authService } from "@/services/authService";
 import type { FormEvent } from "react";
 import { Form, Link } from "react-router";
 import { z } from "zod";
@@ -38,7 +39,8 @@ export const RegisterPage = () => {
 
   function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    validateForm();
+    const data = validateForm();
+    void authService.registerUser(data);
   }
 
   return (

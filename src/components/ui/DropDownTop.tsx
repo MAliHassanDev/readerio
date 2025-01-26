@@ -18,9 +18,9 @@ export const DropDownTop = ({ items, children }: Props) => {
         tabIndex={0}
         className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
       >
-        {items.map(item => {
+        {items.map((item, index) => {
           return (
-            <li>
+            <li key={item.title + index.toString()}>
               <button onClick={item.onClick}>{item.title}</button>
             </li>
           );
