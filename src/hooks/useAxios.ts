@@ -1,4 +1,6 @@
+import { axios } from "@/lib/axiso";
 import logger from "@/lib/logger";
+import type { AxiosRequestConfig } from "axios";
 import { type Reducer, useEffect, useReducer } from "react";
 
 type State<T> = {
@@ -16,7 +18,7 @@ type Action<T> =
       type: "error";
       error: unknown;
     };
-const useFetch = <T>(url: string) => {
+const useFetch = <T>(config: AxiosRequestConfig) => {
   const [state, dispatch] = useReducer<Reducer<State<T>, Action<T>>>(reducer, {
     loading: true,
     data: null,
@@ -26,8 +28,7 @@ const useFetch = <T>(url: string) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(url);
-        const data = (await response.json()) as T;
+        const { data } = await axios<T>(config);
         dispatch({ type: "data", data });
       } catch (error: unknown) {
         logger.error(error, "useFetch");
@@ -36,7 +37,7 @@ const useFetch = <T>(url: string) => {
     };
 
     fetchData().catch(logger.error);
-  }, [url]);
+  }, [config]);
 
   return state;
 };
