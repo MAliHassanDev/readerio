@@ -1,10 +1,15 @@
 import { Link, Outlet } from "react-router";
 import Pen from "@/assets/icons/pen.svg?react";
-import Avatar from "@/components/ui/Avatar";
 import { HeaderContainer } from "./components/HeaderContainer";
 import { SearchBar } from "@/components/ui/SearchBar";
+import { userService, type UserProfile } from "@/services/userService";
+import { useService } from "@/hooks/useService";
+import { avatarService } from "@/services/avatarService";
+import { UserMenu } from "./components/UserMenu";
 
 export const RootLayout = () => {
+  const { data, loading } = useService(userService.getUserProfile);
+
   return (
     <>
       <HeaderContainer>
@@ -14,18 +19,43 @@ export const RootLayout = () => {
           </Link>
           <SearchBar />
         </div>
-        <div className="flex items-center gap-6">
-          <Link
-            to="write"
-            className="text-light-content hover:text-base-content flex cursor-pointer"
-          >
-            <Pen />
-            <p className="px-2">Write</p>
+
+        {loading && (
+          <div className="flex items-center gap-4">
+            <div className="skeleton h-10 w-18"></div>
+            <div className="skeleton h-8 w-8 rounded-full"></div>
+          </div>
+        )}
+
+        {!loading && !data && (
+          <Link to="account/login" className="btn btn-outline">
+            Log In
           </Link>
-          <Avatar />
-        </div>
+        )}
+
+        {data && <LogInUserHeaderSection user={data.user} />}
       </HeaderContainer>
       <Outlet />
     </>
   );
 };
+
+function LogInUserHeaderSection({ user }: { user: UserProfile }) {
+  const { loading, data } = useService(avatarService.getAvatar, user.name);
+
+  return (
+    <div className="flex items-center gap-1 md:gap-4">
+      <Link
+        to="write"
+        className="text-light-content hover:text-base-content flex cursor-pointer"
+      >
+        <Pen />
+        <p className="px-2">Write</p>
+      </Link>
+
+      {loading && <div className="skeleton h-8 w-8 rounded-full"></div>}
+
+      {data && <UserMenu avatar={data.image} />}
+    </div>
+  );
+}
