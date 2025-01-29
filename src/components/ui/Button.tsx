@@ -1,14 +1,32 @@
-import type { ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
-  onClick: () => void;
+  pending?: boolean;
+  shape?: "primary" | "secondary";
+  type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
+  onClick?: () => void;
 };
 
-const Button = ({ children, onClick }: Props) => {
+const Button = ({
+  children,
+  onClick,
+  pending = false,
+  shape = "secondary",
+  type = "button",
+}: Props) => {
   return (
-    <button className="btn btn-neutral rounded-full px-6" onClick={onClick}>
-      {children}
+    <button
+      className={
+        shape == "secondary"
+          ? "btn btn-neutral rounded-full px-6"
+          : "btn btn-primary"
+      }
+      type={type}
+      disabled={pending}
+      onClick={onClick}
+    >
+      {pending ? <span className="loading loading-spinner"></span> : children}
     </button>
   );
 };
