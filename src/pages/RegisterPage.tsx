@@ -1,54 +1,40 @@
 import { FormField } from "@/components/ui/form/FormField";
-import { useForm } from "@/hooks/useForm";
-import { authService } from "@/services/authService";
-import type { FormEvent } from "react";
-import { Form, Link } from "react-router";
-import { z } from "zod";
-
-const registerUserSchema = z
-  .object({
-    email: z
-      .string({ required_error: "Email is required" })
-      .email("Email address is invalid")
-      .or(z.literal("")),
-    password: z
-      .string({ required_error: "Password is required" })
-      .min(6, "Password must be between 6 and 40 characters")
-      .max(40)
-      .or(z.literal("")),
-    confirmPassword: z
-      .string({ required_error: "Confirm Password is required" })
-      .min(6, "Password must be between 6 and 40 characters.")
-      .max(40)
-      .or(z.literal("")),
-  })
-  .refine(({ password, confirmPassword }) => password === confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
+import { useForm, type SubmitHandler } from "@/hooks/useForm";
+import {
+  registerUserSchema,
+  type RegisterUserData,
+} from "@/lib/schemas/authSchema";
+import { userService } from "@/services/userService";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router";
 
 export const RegisterPage = () => {
-  const { errors, values, handleFormFieldChange, validateForm } = useForm(
-    registerUserSchema,
-    {
+  const { errors, values, handleFormFieldChange, handleSubmit, pending } =
+    useForm(registerUserSchema, {
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
-    },
-  );
+    });
+  const navigate = useNavigate();
 
-  function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const data = validateForm();
-    void authService.registerUser(data);
-  }
-
+  const onSubmit: SubmitHandler<RegisterUserData> = async data => {
+    try {
+      await userService.registerUser(data);
+      toast.success("Account created successfully");
+      await navigate("/account/login");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
+  };
   return (
     <main className="flex w-full flex-1 items-center justify-center">
-      <Form
+      <form
         method="post"
         action="/account/register"
-        onSubmit={handleFormSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
         <div className="rounded-box border-light-content flex max-w-md flex-col gap-4 border p-6 shadow md:min-w-sm">
@@ -67,6 +53,16 @@ export const RegisterPage = () => {
           </a>
 
           <div className="divider my-0">OR</div>
+
+          <FormField
+            name="name"
+            label="Name"
+            type="text"
+            autoComplete="name"
+            value={values.name}
+            onChange={handleFormFieldChange}
+            errorMessage={errors.name}
+          />
 
           <FormField
             name="email"
@@ -107,11 +103,15 @@ export const RegisterPage = () => {
             </label>
           </div>
 
-          <button className="btn btn-primary" type="submit">
-            Create
+          <button className="btn btn-primary" disabled={pending} type="submit">
+            {pending ? (
+              <span className="loading loading-spinner"></span>
+            ) : (
+              "create"
+            )}
           </button>
         </div>
-      </Form>
+      </form>
     </main>
   );
 };
